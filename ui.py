@@ -5,9 +5,14 @@ from camera import CameraSource
 
 
 class PlantifyUI:
-    def __init__(self, detector: PlantDetector | None = None, camera: CameraSource | None = None) -> None:
+    def __init__(
+        self,
+        detector: PlantDetector | None = None,
+        camera_source: int | str = 0,
+        camera: CameraSource | None = None,
+    ) -> None:
         self.detector = detector or PlantDetector()
-        self.camera = camera or CameraSource(source=0, use_phone_stream=True)
+        self.camera = camera or CameraSource(source=camera_source)
 
     def run(self) -> None:
         self.camera.start()

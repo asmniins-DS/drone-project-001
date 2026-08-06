@@ -3,17 +3,19 @@ import numpy as np
 
 
 class CameraSource:
-    def __init__(self, source: int | str = 0, use_phone_stream: bool = True) -> None:
+    def __init__(self, source: int | str = 0) -> None:
         self.source = source
-        self.use_phone_stream = use_phone_stream
         self.cap = None
 
     def start(self) -> None:
         if self.cap is not None:
             return
-        self.cap = cv2.VideoCapture(self.source)
+        self.cap = cv2.VideoCapture(self.source, cv2.CAP_ANY)
         if not self.cap.isOpened():
-            raise RuntimeError("Unable to open camera source. Connect your phone camera stream or a local camera.")
+            raise RuntimeError(
+                f"Unable to open camera source '{self.source}'. "
+                "Use a phone stream URL or a local device index."
+            )
 
     def read_frame(self) -> np.ndarray | None:
         if self.cap is None:
